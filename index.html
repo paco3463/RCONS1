@@ -1,535 +1,435 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rousseau Construction | Ultra Luxury</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#ff7745',
+                        brandDark: '#1e1b4b', 
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fafafa;
+            overflow-x: hidden;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.6) 100%);
+        }
+        .logo-box {
+            background-color: #ff7745;
+            color: white;
+            font-family: 'Times New Roman', Times, serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            font-size: 42px;
+            font-weight: normal;
+            line-height: 1;
+            padding-top: 8px; 
+        }
+        .logo-text-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 12px;
+        }
+        .logo-text-main {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: 0.05em;
+        }
+        .logo-text-sub {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+        #canvas-container {
+            width: 100%;
+            height: 70vh;
+            position: relative;
+            background-color: #fafafa;
+            cursor: grab;
+        }
+        #canvas-container:active {
+            cursor: grabbing;
+        }
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s ease-out forwards;
+        }
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
+    </style>
 </head>
-<body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Rousseau Construction | Ultra Luxury&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"&gt;&lt;/script&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>tailwind.config = {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>theme: {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>extend: {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>colors: {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>brand: '#ff7745',</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>brandDark: '#1e1b4b', // Deep navy for high-end feel matching your logo text</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>fontFamily: {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>sans: ['Helvetica', 'Arial', 'sans-serif'],</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #fafafa;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>overflow-x: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Smooth scrolling */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>html {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>scroll-behavior: smooth;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Hero Image Overlay */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.hero-overlay {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.6) 100%);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Logo styling mimicking the uploaded image */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.logo-box {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #ff7745;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Times New Roman', Times, serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: inline-flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 50px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 50px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 42px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: normal;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding-top: 8px; /* Optical alignment */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.logo-text-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-left: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.logo-text-main {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Helvetica', 'Arial', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.logo-text-sub {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Helvetica', 'Arial', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 300;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 11px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 0.3em;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.2;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* 3D Canvas Container */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>#canvas-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 70vh;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #fafafa;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: grab;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>#canvas-container:active {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: grabbing;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.reveal-text {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(20px);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeUp 1s ease-out forwards;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeUp {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>to {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>transform: translateY(0);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.delay-1 { animation-delay: 0.3s; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.delay-2 { animation-delay: 0.6s; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.delay-3 { animation-delay: 0.9s; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="text-gray-800 antialiased selection:bg-brand selection:text-white"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Transparent Header Over Hero --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="absolute top-0 left-0 w-full z-50 py-8 px-6 md:px-12 flex justify-between items-center transition-all duration-300"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Recreated Logo --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#" class="flex items-center group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="logo-box transition-transform duration-500 group-hover:scale-105"&gt;r&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="logo-text-container text-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="logo-text-main"&gt;ROUSSEAU&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="logo-text-sub"&gt;CONSTRUCTION&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Desktop Navigation --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;nav class="hidden md:flex space-x-10 text-white font-sans text-sm tracking-[0.2em] font-light uppercase"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#work" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full"&gt;Work&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#services" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full"&gt;Services&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#company" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full"&gt;Company&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#portfolio" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full"&gt;Portfolio&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Mobile Menu Button --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="md:hidden text-white focus:outline-none"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Hero Section --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="relative h-screen w-full flex items-center justify-center overflow-hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Epic Luxury Mansion Background --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="absolute inset-0 z-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;img src="3.jpg" alt="Luxury Modern Mansion in South Florida" class="w-full h-full object-cover object-center transform scale-105 animate-[pulse_20s_ease-in-out_infinite_alternate]" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=2850&amp;q=80'" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="absolute inset-0 hero-overlay"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Hero Content --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2 class="text-brand font-sans tracking-[0.3em] text-sm md:text-base uppercase mb-6 reveal-text"&gt;South Florida &amp; Coral Gables&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-white font-sans font-bold text-5xl md:text-7xl lg:text-8xl leading-tight mb-8 reveal-text delay-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>Defining &lt;br/&gt;&lt;span class="italic font-light"&gt;Modern Luxury&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-200 font-sans font-light max-w-2xl mx-auto text-lg md:text-xl reveal-text delay-2 mb-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex flex-col md:flex-row justify-center items-center gap-4 reveal-text delay-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#custom-homes" class="w-full md:w-auto border border-white text-white hover:bg-white hover:text-brandDark transition-all duration-500 font-sans font-bold tracking-[0.15em] uppercase text-xs px-8 py-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Custom Home Clients</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#realtors-architects" class="w-full md:w-auto border border-white text-white hover:bg-white hover:text-brandDark transition-all duration-500 font-sans font-bold tracking-[0.15em] uppercase text-xs px-8 py-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Realtors &amp; Architects</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#investors" class="w-full md:w-auto border border-brand bg-brand text-white hover:bg-transparent hover:text-brand transition-all duration-500 font-sans font-bold tracking-[0.15em] uppercase text-xs px-8 py-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Investors</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Scroll Indicator --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center animate-bounce"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-white text-xs tracking-widest uppercase font-light mb-2 opacity-70"&gt;Scroll&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-70"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 3D Wireframe Section --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="3d-section" class="relative bg-[#fafafa] py-20 border-b border-gray-200"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-6 mb-10 text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="font-sans font-bold text-3xl md:text-4xl text-brandDark mb-4"&gt;Architectural Precision&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="font-sans text-gray-500 max-w-2xl mx-auto font-light"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interact with our structural blueprint. Drag to rotate the modern elevation.</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Canvas for Three.js --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="canvas-container"&gt;&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="absolute bottom-10 right-10 flex items-center space-x-2 opacity-50 pointer-events-none"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs font-sans tracking-widest uppercase"&gt;Drag to Inspect&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 4 Luxury Columns Section --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="w-full bg-brandDark"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-[80vh] md:h-[600px]"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Column 1: Work --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#work" class="relative group overflow-hidden h-full block"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;img src="3.jpg" alt="Work" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80'" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 flex items-center justify-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2"&gt;Work&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Column 2: Services --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#services" class="relative group overflow-hidden h-full block"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;img src="3.jpg" alt="Services" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80'" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 flex items-center justify-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2"&gt;Services&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Column 3: Company --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#company" class="relative group overflow-hidden h-full block"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;img src="3.jpg" alt="Company" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80'" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 flex items-center justify-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2"&gt;Company&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Column 4: Portfolio --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#portfolio" class="relative group overflow-hidden h-full block"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;img src="3.jpg" alt="Portfolio" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80'" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 flex items-center justify-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2"&gt;Portfolio&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Content Sections (Lorem Ipsum) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="work" class="py-32 bg-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4 class="text-brand font-sans tracking-[0.2em] text-xs uppercase mb-4"&gt;The Work&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="font-sans font-bold text-4xl md:text-5xl text-brandDark mb-8 leading-tight"&gt;Crafting Legacies in &lt;br/&gt;Coral Gables&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="font-sans text-gray-600 font-light leading-relaxed mb-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="font-sans text-gray-600 font-light leading-relaxed mb-10"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="inline-flex items-center text-brand font-sans tracking-widest uppercase text-xs hover:text-brandDark transition-colors"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>View Portfolio<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="relative"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="aspect-[4/5] bg-gray-100 overflow-hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;img src="3.jpg" alt="Modern Interior" class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1613490908592-fd5e23f990a4?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80'" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Decorative Element --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute -bottom-10 -left-10 w-48 h-48 border border-brand z-[-1] hidden md:block"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Minimalist Services Grid --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="services" class="py-32 bg-[#fafafa]"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-center mb-20"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4 class="text-brand font-sans tracking-[0.2em] text-xs uppercase mb-4"&gt;Our Services&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="font-sans font-bold text-4xl text-brandDark"&gt;Lorem Ipsum Dolor&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Service 1 --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="group border-t border-gray-300 pt-8 hover:border-brand transition-colors duration-500 cursor-default"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="text-brand font-sans font-bold text-xl mb-4 block"&gt;01&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="font-sans font-bold text-2xl text-brandDark mb-4"&gt;Architecture&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="font-sans text-gray-500 font-light text-sm leading-relaxed"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Service 2 --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="group border-t border-gray-300 pt-8 hover:border-brand transition-colors duration-500 cursor-default"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="text-brand font-sans font-bold text-xl mb-4 block"&gt;02&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="font-sans font-bold text-2xl text-brandDark mb-4"&gt;Construction&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="font-sans text-gray-500 font-light text-sm leading-relaxed"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Service 3 --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="group border-t border-gray-300 pt-8 hover:border-brand transition-colors duration-500 cursor-default"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="text-brand font-sans font-bold text-xl mb-4 block"&gt;03&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="font-sans font-bold text-2xl text-brandDark mb-4"&gt;Interior Design&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="font-sans text-gray-500 font-light text-sm leading-relaxed"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Footer --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;footer class="bg-brandDark text-white py-20"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="col-span-1 md:col-span-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;!-- Recreated Logo for Footer --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;a href="#" class="flex items-center mb-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="logo-box bg-brand text-white"&gt;r&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="logo-text-container text-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="logo-text-main"&gt;ROUSSEAU&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="logo-text-sub"&gt;CONSTRUCTION&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="font-sans font-light text-gray-400 text-sm max-w-sm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h5 class="font-sans font-bold text-lg mb-6 text-brand"&gt;Connect&lt;/h5&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;ul class="space-y-4 font-sans font-light text-sm text-gray-300"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;a href="#" class="hover:text-brand transition-colors"&gt;Instagram&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;a href="#" class="hover:text-brand transition-colors"&gt;LinkedIn&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;a href="#" class="hover:text-brand transition-colors"&gt;Facebook&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h5 class="font-sans font-bold text-lg mb-6 text-brand"&gt;Contact&lt;/h5&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;ul class="space-y-4 font-sans font-light text-sm text-gray-300"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Coral Gables, FL&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;info@rousseauconstruction.com&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;+1 (555) 123-4567&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-gray-800 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs font-sans font-light text-gray-500 tracking-wider"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&amp;copy; 2026 Rousseau Construction. All rights reserved.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="space-x-4 mt-4 md:mt-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="hover:text-white transition-colors"&gt;Privacy&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="hover:text-white transition-colors"&gt;Terms&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Three.js Setup and Animation --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.addEventListener('DOMContentLoaded', function() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>initThreeJS();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>initNavbarScroll();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Header Background Change on Scroll</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function initNavbarScroll() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const header = document.querySelector('header');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const logoText = document.querySelectorAll('.logo-text-main, .logo-text-sub');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const navLinks = document.querySelectorAll('nav a');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const mobileBtn = document.querySelector('button.md\\:hidden');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('scroll', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (window.scrollY &gt; 50) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>header.classList.add('bg-white', 'shadow-md', 'py-4');</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>header.classList.remove('py-8');</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>// Change text to dark</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>logoText.forEach(el =&gt; el.classList.replace('text-white', 'text-brandDark'));</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>navLinks.forEach(el =&gt; el.classList.replace('text-white', 'text-brandDark'));</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>mobileBtn.classList.replace('text-white', 'text-brandDark');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>header.classList.remove('bg-white', 'shadow-md', 'py-4');</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>header.classList.add('py-8');</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>// Change text back to white</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>logoText.forEach(el =&gt; el.classList.replace('text-brandDark', 'text-white'));</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>navLinks.forEach(el =&gt; el.classList.replace('text-brandDark', 'text-white'));</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>mobileBtn.classList.replace('text-brandDark', 'text-white');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Three.js Wireframe Home Implementation</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function initThreeJS() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('canvas-container');</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Scene Setup</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const scene = new THREE.Scene();</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Camera Setup</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>camera.position.set(10, 8, 12);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>camera.lookAt(0, 0, 0);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Renderer Setup</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });</p>
-<p class="p1"><span class="Apple-converted-space">            </span>renderer.setSize(container.clientWidth, container.clientHeight);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>renderer.setPixelRatio(window.devicePixelRatio);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>container.appendChild(renderer.domElement);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Group to hold our house architecture</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const houseGroup = new THREE.Group();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Material - Using the requested #ff7745 accent color</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const wireMaterial = new THREE.LineBasicMaterial({<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>color: 0xff7745,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>linewidth: 1,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>transparent: true,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>opacity: 1.0 // Increased opacity to 1.0 for better visibility</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Helper function to create wireframe boxes</p>
-<p class="p1"><span class="Apple-converted-space">            </span>function createWireBox(width, height, depth, x, y, z) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const geometry = new THREE.BoxGeometry(width, height, depth);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const edges = new THREE.EdgesGeometry(geometry);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const line = new THREE.LineSegments(edges, wireMaterial);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>line.position.set(x, y, z);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return line;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Build a modern house structure (abstract intersecting volumes)</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Ground floor main volume</p>
-<p class="p1"><span class="Apple-converted-space">            </span>houseGroup.add(createWireBox(6, 2, 4, 0, 1, 0));</p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Ground floor secondary volume (garage/wing)</p>
-<p class="p1"><span class="Apple-converted-space">            </span>houseGroup.add(createWireBox(3, 1.8, 3, -4.5, 0.9, 0.5));</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Second floor main volume (cantilevered)</p>
-<p class="p1"><span class="Apple-converted-space">            </span>houseGroup.add(createWireBox(5, 1.5, 3.5, 0.5, 2.75, 0.5));</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Vertical architectural feature (chimney/stairwell)</p>
-<p class="p1"><span class="Apple-converted-space">            </span>houseGroup.add(createWireBox(1, 4.5, 1.5, 2.5, 2.25, -1));</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Pool / Terrace outline</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const poolGeo = new THREE.PlaneGeometry(8, 4);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const poolEdges = new THREE.EdgesGeometry(poolGeo);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const poolLine = new THREE.LineSegments(poolEdges, wireMaterial);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>poolLine.rotation.x = -Math.PI / 2;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>poolLine.position.set(1, 0, 4);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>houseGroup.add(poolLine);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Add subtle grid helper on the ground</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const gridHelper = new THREE.GridHelper(20, 20, 0xdddddd, 0xeeeeee);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gridHelper.position.y = 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>scene.add(gridHelper);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>scene.add(houseGroup);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Mouse interaction logic</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let isDragging = false;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let previousMousePosition = { x: 0, y: 0 };</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>container.addEventListener('mousedown', (e) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>isDragging = true;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>container.addEventListener('mousemove', (e) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (isDragging) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>const deltaMove = {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>x: e.offsetX - previousMousePosition.x,</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>y: e.offsetY - previousMousePosition.y</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>};</p>
-<p class="p2"><span class="Apple-converted-space">                    </span></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.y += deltaMove.x * 0.005;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.x += deltaMove.y * 0.005;</p>
-<p class="p2"><span class="Apple-converted-space">                    </span></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>// Limit X rotation so it doesn't flip upside down</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.x = Math.max(-Math.PI/4, Math.min(Math.PI/4, houseGroup.rotation.x));</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>previousMousePosition = {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>x: e.offsetX,</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>y: e.offsetY</p>
-<p class="p1"><span class="Apple-converted-space">                </span>};</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('mouseup', () =&gt; { isDragging = false; });</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Touch support for mobile</p>
-<p class="p1"><span class="Apple-converted-space">            </span>container.addEventListener('touchstart', (e) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>isDragging = true;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}, {passive: true});</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>container.addEventListener('touchmove', (e) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (isDragging) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>const deltaMove = {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>x: e.touches[0].clientX - previousMousePosition.x,</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>y: e.touches[0].clientY - previousMousePosition.y</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.y += deltaMove.x * 0.005;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.x += deltaMove.y * 0.005;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.x = Math.max(-Math.PI/4, Math.min(Math.PI/4, houseGroup.rotation.x));</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}, {passive: true});</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('touchend', () =&gt; { isDragging = false; });</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Animation Loop</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const animate = function () {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>requestAnimationFrame(animate);</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Slow continuous rotation if not interacting</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (!isDragging) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>houseGroup.rotation.y += 0.002;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>renderer.render(scene, camera);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>animate();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Handle Resize</p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('resize', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const width = container.clientWidth;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const height = container.clientHeight;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>renderer.setSize(width, height);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>camera.aspect = width / height;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>camera.updateProjectionMatrix();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<body class="text-gray-800 antialiased selection:bg-brand selection:text-white">
+
+    <header class="absolute top-0 left-0 w-full z-50 py-8 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+        <a href="#" class="flex items-center group">
+            <div class="logo-box transition-transform duration-500 group-hover:scale-105">r</div>
+            <div class="logo-text-container text-white">
+                <div class="logo-text-main">ROUSSEAU</div>
+                <div class="logo-text-sub">CONSTRUCTION</div>
+            </div>
+        </a>
+
+        <nav class="hidden md:flex space-x-10 text-white font-sans text-sm tracking-[0.2em] font-light uppercase">
+            <a href="#work" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full">Work</a>
+            <a href="#services" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full">Services</a>
+            <a href="#company" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full">Company</a>
+            <a href="#portfolio" class="hover:text-brand transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-brand after:transition-all hover:after:w-full">Portfolio</a>
+        </nav>
+
+        <button class="md:hidden text-white focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="3.jpg" alt="Luxury Modern Mansion in South Florida" class="w-full h-full object-cover object-center transform scale-105 animate-[pulse_20s_ease-in-out_infinite_alternate]" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80'" />
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
+            <h2 class="text-brand font-sans tracking-[0.3em] text-sm md:text-base uppercase mb-6 reveal-text">South Florida & Coral Gables</h2>
+            <h1 class="text-white font-sans font-bold text-5xl md:text-7xl lg:text-8xl leading-tight mb-8 reveal-text delay-1">
+                Defining <br/><span class="italic font-light">Modern Luxury</span>
+            </h1>
+            <p class="text-gray-200 font-sans font-light max-w-2xl mx-auto text-lg md:text-xl reveal-text delay-2 mb-12">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 reveal-text delay-3">
+                <a href="#custom-homes" class="w-full md:w-auto border border-white text-white hover:bg-white hover:text-brandDark transition-all duration-500 font-sans font-bold tracking-[0.15em] uppercase text-xs px-8 py-4">
+                    Custom Home Clients
+                </a>
+                <a href="#realtors-architects" class="w-full md:w-auto border border-white text-white hover:bg-white hover:text-brandDark transition-all duration-500 font-sans font-bold tracking-[0.15em] uppercase text-xs px-8 py-4">
+                    Realtors & Architects
+                </a>
+                <a href="#investors" class="w-full md:w-auto border border-brand bg-brand text-white hover:bg-transparent hover:text-brand transition-all duration-500 font-sans font-bold tracking-[0.15em] uppercase text-xs px-8 py-4">
+                    Investors
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center animate-bounce">
+            <span class="text-white text-xs tracking-widest uppercase font-light mb-2 opacity-70">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-70"></div>
+        </div>
+    </section>
+
+    <section id="3d-section" class="relative bg-[#fafafa] py-20 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 mb-10 text-center">
+            <h3 class="font-sans font-bold text-3xl md:text-4xl text-brandDark mb-4">Architectural Precision</h3>
+            <p class="font-sans text-gray-500 max-w-2xl mx-auto font-light">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interact with our structural blueprint. Drag to rotate the modern elevation.
+            </p>
+        </div>
+        
+        <div id="canvas-container"></div>
+        
+        <div class="absolute bottom-10 right-10 flex items-center space-x-2 opacity-50 pointer-events-none">
+            <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+            <span class="text-xs font-sans tracking-widest uppercase">Drag to Inspect</span>
+        </div>
+    </section>
+
+    <section class="w-full bg-brandDark">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-[80vh] md:h-[600px]">
+            <a href="#work" class="relative group overflow-hidden h-full block">
+                <img src="3.jpg" alt="Work" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" />
+                <div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2">Work</h3>
+                </div>
+            </a>
+            <a href="#services" class="relative group overflow-hidden h-full block">
+                <img src="3.jpg" alt="Services" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" />
+                <div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2">Services</h3>
+                </div>
+            </a>
+            <a href="#company" class="relative group overflow-hidden h-full block">
+                <img src="3.jpg" alt="Company" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" />
+                <div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2">Company</h3>
+                </div>
+            </a>
+            <a href="#portfolio" class="relative group overflow-hidden h-full block">
+                <img src="3.jpg" alt="Portfolio" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" />
+                <div class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-brand/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <h3 class="text-white font-sans font-bold text-2xl md:text-3xl tracking-[0.2em] uppercase transition-transform duration-500 group-hover:-translate-y-2">Portfolio</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="work" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div>
+                <h4 class="text-brand font-sans tracking-[0.2em] text-xs uppercase mb-4">The Work</h4>
+                <h2 class="font-sans font-bold text-4xl md:text-5xl text-brandDark mb-8 leading-tight">Crafting Legacies in <br/>Coral Gables</h2>
+                <p class="font-sans text-gray-600 font-light leading-relaxed mb-6">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.
+                </p>
+                <p class="font-sans text-gray-600 font-light leading-relaxed mb-10">
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.
+                </p>
+                <a href="#" class="inline-flex items-center text-brand font-sans tracking-widest uppercase text-xs hover:text-brandDark transition-colors">
+                    View Portfolio 
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
+            <div class="relative">
+                <div class="aspect-[4/5] bg-gray-100 overflow-hidden">
+                    <img src="3.jpg" alt="Modern Interior" class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1613490908592-fd5e23f990a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'" />
+                </div>
+                <div class="absolute -bottom-10 -left-10 w-48 h-48 border border-brand z-[-1] hidden md:block"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-32 bg-[#fafafa]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h4 class="text-brand font-sans tracking-[0.2em] text-xs uppercase mb-4">Our Services</h4>
+                <h2 class="font-sans font-bold text-4xl text-brandDark">Lorem Ipsum Dolor</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="group border-t border-gray-300 pt-8 hover:border-brand transition-colors duration-500 cursor-default">
+                    <span class="text-brand font-sans font-bold text-xl mb-4 block">01</span>
+                    <h3 class="font-sans font-bold text-2xl text-brandDark mb-4">Architecture</h3>
+                    <p class="font-sans text-gray-500 font-light text-sm leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.
+                    </p>
+                </div>
+                <div class="group border-t border-gray-300 pt-8 hover:border-brand transition-colors duration-500 cursor-default">
+                    <span class="text-brand font-sans font-bold text-xl mb-4 block">02</span>
+                    <h3 class="font-sans font-bold text-2xl text-brandDark mb-4">Construction</h3>
+                    <p class="font-sans text-gray-500 font-light text-sm leading-relaxed">
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.
+                    </p>
+                </div>
+                <div class="group border-t border-gray-300 pt-8 hover:border-brand transition-colors duration-500 cursor-default">
+                    <span class="text-brand font-sans font-bold text-xl mb-4 block">03</span>
+                    <h3 class="font-sans font-bold text-2xl text-brandDark mb-4">Interior Design</h3>
+                    <p class="font-sans text-gray-500 font-light text-sm leading-relaxed">
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brandDark text-white py-20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                 <a href="#" class="flex items-center mb-6">
+                    <div class="logo-box bg-brand text-white">r</div>
+                    <div class="logo-text-container text-white">
+                        <div class="logo-text-main">ROUSSEAU</div>
+                        <div class="logo-text-sub">CONSTRUCTION</div>
+                    </div>
+                </a>
+                <p class="font-sans font-light text-gray-400 text-sm max-w-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
+                </p>
+            </div>
+            
+            <div>
+                <h5 class="font-sans font-bold text-lg mb-6 text-brand">Connect</h5>
+                <ul class="space-y-4 font-sans font-light text-sm text-gray-300">
+                    <li><a href="#" class="hover:text-brand transition-colors">Instagram</a></li>
+                    <li><a href="#" class="hover:text-brand transition-colors">LinkedIn</a></li>
+                    <li><a href="#" class="hover:text-brand transition-colors">Facebook</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h5 class="font-sans font-bold text-lg mb-6 text-brand">Contact</h5>
+                <ul class="space-y-4 font-sans font-light text-sm text-gray-300">
+                    <li>Coral Gables, FL</li>
+                    <li>info@rousseauconstruction.com</li>
+                    <li>+1 (555) 123-4567</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-gray-800 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs font-sans font-light text-gray-500 tracking-wider">
+            <p>&copy; 2026 Rousseau Construction. All rights reserved.</p>
+            <div class="space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initThreeJS();
+            initNavbarScroll();
+        });
+
+        function initNavbarScroll() {
+            const header = document.querySelector('header');
+            const logoText = document.querySelectorAll('.logo-text-main, .logo-text-sub');
+            const navLinks = document.querySelectorAll('nav a');
+            const mobileBtn = document.querySelector('button.md\\:hidden');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-white', 'shadow-md', 'py-4');
+                    header.classList.remove('py-8');
+                    logoText.forEach(el => el.classList.add('text-brandDark'));
+                    navLinks.forEach(el => el.classList.add('text-brandDark'));
+                    mobileBtn.classList.add('text-brandDark');
+                } else {
+                    header.classList.remove('bg-white', 'shadow-md', 'py-4');
+                    header.classList.add('py-8');
+                    logoText.forEach(el => el.classList.remove('text-brandDark'));
+                    navLinks.forEach(el => el.classList.remove('text-brandDark'));
+                    mobileBtn.classList.remove('text-brandDark');
+                }
+            });
+        }
+
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(10, 8, 12);
+            camera.lookAt(0, 0, 0);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            const houseGroup = new THREE.Group();
+            const wireMaterial = new THREE.LineBasicMaterial({ 
+                color: 0xff7745,
+                linewidth: 1,
+                transparent: true,
+                opacity: 1.0
+            });
+
+            function createWireBox(width, height, depth, x, y, z) {
+                const geometry = new THREE.BoxGeometry(width, height, depth);
+                const edges = new THREE.EdgesGeometry(geometry);
+                const line = new THREE.LineSegments(edges, wireMaterial);
+                line.position.set(x, y, z);
+                return line;
+            }
+
+            houseGroup.add(createWireBox(6, 2, 4, 0, 1, 0));
+            houseGroup.add(createWireBox(3, 1.8, 3, -4.5, 0.9, 0.5));
+            houseGroup.add(createWireBox(5, 1.5, 3.5, 0.5, 2.75, 0.5));
+            houseGroup.add(createWireBox(1, 4.5, 1.5, 2.5, 2.25, -1));
+
+            const poolGeo = new THREE.PlaneGeometry(8, 4);
+            const poolEdges = new THREE.EdgesGeometry(poolGeo);
+            const poolLine = new THREE.LineSegments(poolEdges, wireMaterial);
+            poolLine.rotation.x = -Math.PI / 2;
+            poolLine.position.set(1, 0, 4);
+            houseGroup.add(poolLine);
+
+            const gridHelper = new THREE.GridHelper(20, 20, 0xdddddd, 0xeeeeee);
+            gridHelper.position.y = 0;
+            scene.add(gridHelper);
+            scene.add(houseGroup);
+
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            
+            container.addEventListener('mousedown', (e) => { isDragging = true; });
+            container.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const deltaMove = {
+                        x: e.offsetX - previousMousePosition.x,
+                        y: e.offsetY - previousMousePosition.y
+                    };
+                    houseGroup.rotation.y += deltaMove.x * 0.005;
+                    houseGroup.rotation.x += deltaMove.y * 0.005;
+                    houseGroup.rotation.x = Math.max(-Math.PI/4, Math.min(Math.PI/4, houseGroup.rotation.x));
+                }
+                previousMousePosition = { x: e.offsetX, y: e.offsetY };
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, {passive: true});
+            container.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    const deltaMove = {
+                        x: e.touches[0].clientX - previousMousePosition.x,
+                        y: e.touches[0].clientY - previousMousePosition.y
+                    };
+                    houseGroup.rotation.y += deltaMove.x * 0.005;
+                    houseGroup.rotation.x += deltaMove.y * 0.005;
+                    houseGroup.rotation.x = Math.max(-Math.PI/4, Math.min(Math.PI/4, houseGroup.rotation.x));
+                }
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, {passive: true});
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            const animate = function () {
+                requestAnimationFrame(animate);
+                if (!isDragging) {
+                    houseGroup.rotation.y += 0.002;
+                }
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            window.addEventListener('resize', () => {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            });
+        }
+    </script>
 </body>
 </html>
